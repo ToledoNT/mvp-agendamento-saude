@@ -2,49 +2,29 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLogin } from "./hook/use-login";
+
 
 export default function Login() {
   const router = useRouter();
 
+  const { login, loading, error } = useLogin();
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  // 👇 usuários do sistema (mock)
-  const USERS = [
-    {
-      email: "admin@sus.gov.br",
-      senha: "123456",
-      role: "admin",
-    },
-    {
-      email: "usuario@sus.gov.br",
-      senha: "123456",
-      role: "user",
-    },
-  ];
-
-  function handleLogin() {
+  async function handleLogin() {
     if (!email || !senha) {
       alert("Preencha todos os campos");
       return;
     }
 
-    const userFound = USERS.find(
-      (u) => u.email === email && u.senha === senha
-    );
+    const response = await login({
+      email,
+      senha,
+    });
 
-    if (!userFound) {
-      alert("E-mail ou senha inválidos");
-      return;
-    }
-
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        email: userFound.email,
-        role: userFound.role,
-      })
-    );
+    if (!response) return;
 
     router.push("/home");
   }
@@ -52,7 +32,7 @@ export default function Login() {
   return (
     <main style={styles.container}>
       <div style={styles.card}>
-        {/* Título com gradiente e ícone */}
+        {/* Título */}
         <div style={styles.titleWrapper}>
           <span style={styles.icon}>🏥</span>
           <h1 style={styles.title}>Acesso ao Sistema</h1>
@@ -65,9 +45,10 @@ export default function Login() {
         <div style={styles.form}>
           <div style={styles.inputGroup}>
             <span style={styles.inputIcon}>📧</span>
+
             <input
               style={styles.input}
-              placeholder="admin@sus.gov.br ou usuario@sus.gov.br"
+              placeholder="Digite seu e-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -75,26 +56,48 @@ export default function Login() {
 
           <div style={styles.inputGroup}>
             <span style={styles.inputIcon}>🔒</span>
+
             <input
               style={styles.input}
               type="password"
-              placeholder="123456"
+              placeholder="Digite sua senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
             />
           </div>
 
-          <button type="button" style={styles.button} onClick={handleLogin}>
-            Entrar no sistema →
+          <button
+            type="button"
+            style={styles.button}
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading
+              ? "Entrando..."
+              : "Entrar no sistema →"}
           </button>
 
-          <div style={styles.helperBox}>
-            <p style={styles.helperTitle}>🔐 Credenciais de teste</p>
-            <p style={styles.helper}>
-              <strong>Admin:</strong> admin@sus.gov.br / 123456
+          {error && (
+            <p style={styles.error}>
+              {error}
             </p>
+          )}
+
+          <div style={styles.helperBox}>
+            <p style={styles.helperTitle}>
+              🔐 Credenciais de teste
+            </p>
+
             <p style={styles.helper}>
-              <strong>Usuário:</strong> usuario@sus.gov.br / 123456
+              <strong>Admin:</strong>
+              {" "}
+              admin@sus.gov.br / 123456
+            </p>
+
+            <p style={styles.helper}>
+              <strong>Usuário:</strong>
+              {" "}
+              usuario@sus.gov.br / 123456
             </p>
           </div>
         </div>
@@ -114,22 +117,12 @@ export default function Login() {
           font-size: 0.95rem;
         }
 
-        input:focus {
-          outline: none;
-        }
-
         button {
           transition: all 0.2s ease;
         }
 
         button:hover {
           background-color: #1d4ed8 !important;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
-        }
-
-        button:active {
-          transform: translateY(0);
         }
       `}</style>
     </main>
@@ -142,8 +135,10 @@ const styles: any = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%)",
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    background:
+      "linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%)",
+    fontFamily:
+      "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
   },
 
   card: {
@@ -152,9 +147,8 @@ const styles: any = {
     background: "#ffffff",
     padding: "2rem",
     borderRadius: "2rem",
-    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.2)",
-    border: "1px solid rgba(203, 213, 225, 0.5)",
-    transition: "transform 0.2s",
+    boxShadow:
+      "0 25px 50px -12px rgba(0, 0, 0, 0.2)",
   },
 
   titleWrapper: {
@@ -171,11 +165,11 @@ const styles: any = {
   title: {
     fontSize: "1.8rem",
     fontWeight: 700,
-    background: "linear-gradient(135deg, #1e3a8a, #3b82f6)",
+    background:
+      "linear-gradient(135deg, #1e3a8a, #3b82f6)",
     backgroundClip: "text",
     WebkitBackgroundClip: "text",
     color: "transparent",
-    letterSpacing: "-0.3px",
     margin: 0,
   },
 
@@ -183,8 +177,6 @@ const styles: any = {
     fontSize: "0.9rem",
     color: "#475569",
     marginBottom: "1.8rem",
-    borderLeft: "3px solid #3b82f6",
-    paddingLeft: "0.75rem",
   },
 
   form: {
@@ -201,7 +193,6 @@ const styles: any = {
     borderRadius: "1rem",
     border: "1px solid #cbd5e1",
     backgroundColor: "#ffffff",
-    transition: "all 0.2s",
   },
 
   inputIcon: {
@@ -223,10 +214,11 @@ const styles: any = {
     fontWeight: 600,
     fontSize: "1rem",
     cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "0.5rem",
+  },
+
+  error: {
+    color: "#dc2626",
+    fontSize: "0.9rem",
   },
 
   helperBox: {
@@ -249,4 +241,4 @@ const styles: any = {
     color: "#475569",
     margin: "0.25rem 0",
   },
-};
+}; 

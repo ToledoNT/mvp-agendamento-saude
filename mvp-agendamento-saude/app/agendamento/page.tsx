@@ -1,51 +1,50 @@
 "use client";
 
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
-
 import { useAgendamento } from "../hook/use-agendamento";
-
 import { AgendamentoForm } from "../components/consultas/AgendamentoForm";
+
+// Função para gerar ID único (funciona em todos os navegadores)
+function generateId() {
+  return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+}
 
 export default function Agendamento() {
   const router = useRouter();
+  const { agendarConsulta, loading } = useAgendamento();
 
-  const { agendarConsulta, loading } =
-    useAgendamento();
+  // Estados correspondentes ao modelo Scheduling
+  const [nome, setNome] = useState("");           // patientName
+  const [email, setEmail] = useState("");
+  const [especialidade, setEspecialidade] = useState(""); // specialty
+  const [data, setData] = useState("");           // date (YYYY-MM-DD)
+  const [horario, setHorario] = useState("");     // time (HH:MM)
 
-  const [nome, setNome] = useState("");
-
-  const [medico, setMedico] =
-    useState("");
-
-  const [horario, setHorario] =
-    useState("");
-
-  async function handleSubmit(
-    e: React.FormEvent
-  ) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!nome || !medico || !horario) {
+    if (!nome || !email || !especialidade || !data || !horario) {
       alert("Preencha todos os campos");
-
       return;
     }
 
-    await agendarConsulta({
-      id: crypto.randomUUID(),
-
-      nome,
-
-      medico,
-
-      horario,
-
-      status: "Agendado",
-    });
-
-    router.push("/consultas");
+    try {
+      await agendarConsulta({
+        id: generateId(),
+        patientName: nome,
+        email,
+        specialty: especialidade,
+        date: data,
+        time: horario,
+        status: "Agendado",
+        createdAt: new Date().toISOString(),
+      });
+      router.push("/consultas");
+    } catch (error) {
+      console.error("Erro ao agendar:", error);
+      alert("Erro ao realizar agendamento. Tente novamente.");
+    }
   }
 
   return (
@@ -53,15 +52,8 @@ export default function Agendamento() {
       <main style={styles.container}>
         <div style={styles.header}>
           <div>
-            <h1 style={styles.title}>
-              📅 Agendar Consulta
-            </h1>
-
-            <p style={styles.subtitle}>
-              Preencha os dados abaixo
-              para realizar o
-              agendamento
-            </p>
+            <h1 style={styles.title}>📅 Agendar Consulta</h1>
+            <p style={styles.subtitle}>Preencha os dados abaixo para realizar o agendamento</p>
           </div>
         </div>
 
@@ -69,11 +61,15 @@ export default function Agendamento() {
           <div style={styles.card}>
             <AgendamentoForm
               nome={nome}
-              medico={medico}
+              email={email}
+              especialidade={especialidade}
+              data={data}
               horario={horario}
               loading={loading}
               setNome={setNome}
-              setMedico={setMedico}
+              setEmail={setEmail}
+              setEspecialidade={setEspecialidade}
+              setData={setData}
               setHorario={setHorario}
               onSubmit={handleSubmit}
               styles={styles}
@@ -87,34 +83,21 @@ export default function Agendamento() {
           color: #9ca3af;
           opacity: 1;
         }
-
         input {
           color: #111827;
         }
-
         input:focus {
           outline: none;
           border-color: #2563eb !important;
-
-          box-shadow: 0 0 0 3px
-            rgba(37, 99, 235, 0.1);
-
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
           transition: all 0.2s ease;
         }
-
         button {
           transition: all 0.2s ease;
         }
-
-        button:hover {
+        button:hover:not(:disabled) {
           transform: translateY(-1px);
-
-          box-shadow: 0 4px 8px
-            rgba(0, 0, 0, 0.1);
-        }
-
-        button:active {
-          transform: translateY(0);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
       `}</style>
     </>
@@ -124,132 +107,76 @@ export default function Agendamento() {
 const styles: any = {
   container: {
     minHeight: "100vh",
-
     padding: "2rem",
-
-    background:
-      "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
-
-    fontFamily:
-      "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
   },
-
   header: {
     display: "flex",
-
     justifyContent: "space-between",
-
     alignItems: "flex-start",
-
     marginBottom: "2rem",
-
     paddingBottom: "1rem",
-
-    borderBottom:
-      "2px solid rgba(37, 99, 235, 0.2)",
+    borderBottom: "2px solid rgba(37, 99, 235, 0.2)",
   },
-
   title: {
     fontSize: "2rem",
-
     fontWeight: 700,
-
     marginBottom: "0.5rem",
-
     color: "#0f172a",
-
     letterSpacing: "-0.3px",
   },
-
   subtitle: {
     color: "#475569",
-
     fontSize: "1rem",
   },
-
   cardWrapper: {
     display: "flex",
-
     justifyContent: "center",
-
     alignItems: "center",
   },
-
   card: {
     width: "100%",
-
     maxWidth: "520px",
-
     background: "#ffffff",
-
     padding: "2rem",
-
     borderRadius: "24px",
-
-    border:
-      "1px solid rgba(203, 213, 225, 0.4)",
-
-    boxShadow:
-      "0 20px 35px -10px rgba(0, 0, 0, 0.1)",
+    border: "1px solid rgba(203, 213, 225, 0.4)",
+    boxShadow: "0 20px 35px -10px rgba(0, 0, 0, 0.1)",
   },
-
   form: {
     display: "flex",
-
     flexDirection: "column",
-
     gap: "1.25rem",
   },
-
   field: {
     display: "flex",
-
     flexDirection: "column",
-
     gap: "0.5rem",
   },
-
   label: {
     fontSize: "0.875rem",
-
     fontWeight: 600,
-
     color: "#0f172a",
   },
-
   input: {
     padding: "0.75rem 1rem",
-
     borderRadius: "12px",
-
     border: "1px solid #cbd5e1",
-
     backgroundColor: "#ffffff",
-
     color: "#111827",
-
     fontSize: "0.95rem",
-
     transition: "all 0.2s ease",
   },
-
   button: {
     marginTop: "0.5rem",
-
     padding: "0.85rem 1rem",
-
     borderRadius: "40px",
-
     border: "none",
-
     background: "#2563eb",
-
     color: "#ffffff",
-
     fontWeight: 600,
-
     fontSize: "1rem",
-
     cursor: "pointer",
   },
 };

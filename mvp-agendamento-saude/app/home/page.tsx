@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { HomeCard } from "../components/home/HomeCard";
 import { HomeHeader } from "../components/home/HomeHeader";
@@ -25,7 +25,7 @@ export default function Home() {
   }
 
   if (!user) {
-    return null; // Aguarda redirecionamento
+    return null;
   }
 
   return (
@@ -53,11 +53,19 @@ export default function Home() {
         )}
 
         {isAdmin && (
-          <HomeCard
-            title="⚙️ Painel Admin"
-            description="Gerencie todos os agendamentos"
-            href="/admin"
-          />
+          <>
+            <HomeCard
+              title="⚙️ Painel Admin"
+              description="Gerencie todos os agendamentos"
+              href="/admin"
+            />
+
+            <HomeCard
+              title="🩺 Painel de Médicos"
+              description="Gerencie os médicos cadastrados"
+              href="/medicos"
+            />
+          </>
         )}
       </div>
     </main>

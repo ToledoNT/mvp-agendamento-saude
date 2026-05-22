@@ -1,20 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/src/db/prisma-connection";
+import {
+  NextRequest,
+  NextResponse,
+} from "next/server";
+
+import { GetAllAppointmentsUseCase } from "@/src/use-case/agendamento/get-all-agendamento-use-case";
+
+const getAllAppointmentsUseCase =
+  new GetAllAppointmentsUseCase();
 
 export class AgendamentoController {
-  async getAll(_: NextRequest) {
+  async getAll(
+    _: NextRequest
+  ) {
     try {
-      const agendamentos = await prisma.scheduling.findMany({
-        orderBy: {
-        },
-      });
+      const response =
+        await getAllAppointmentsUseCase.execute();
 
       return NextResponse.json(
+        response.data,
         {
-          success: true,
-          data: agendamentos,
-        },
-        { status: 200 }
+          status: response.code,
+        }
       );
     } catch (error) {
       console.error(error);
@@ -22,9 +28,12 @@ export class AgendamentoController {
       return NextResponse.json(
         {
           success: false,
-          message: "Erro ao buscar agendamentos",
+          message:
+            "Erro ao buscar agendamentos",
         },
-        { status: 500 }
+        {
+          status: 500,
+        }
       );
     }
   }

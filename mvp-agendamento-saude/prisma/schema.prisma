@@ -24,10 +24,30 @@ model Log {
 
 model Scheduling {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  patientName String
+
+  nome        String
+
   email       String
+
+  medico      String
+
   specialty   String
+
   date        String
+
   time        String
+
   status      String @default("AGENDADO")
+}
+
+model Medico {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  nome          String
+
+  email         String   @unique
+
+  especialidade String
+
+  createdAt     DateTime @default(now())
 }

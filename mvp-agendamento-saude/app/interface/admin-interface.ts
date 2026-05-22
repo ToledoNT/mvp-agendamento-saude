@@ -1,10 +1,17 @@
 export interface ConsultaInterface {
-  id: string;
-  patientName: string;  
+  id?: string;
+
+  status: string;
+
+  nome: string;
+
   email: string;
-  specialty: string;    
+
+  medico: string;
+
+  specialty: string;
+
   date: string;
-  time: string;        
-  status: "Agendado" | "Cancelado" | "Concluído";
-  createdAt: string;
+
+  time: string;
 }

@@ -1,24 +1,39 @@
 import { CreateAppointmentUseCase } from "@/src/use-case/agendamento/create-agendamento-use-case copy";
-import { NextRequest, NextResponse } from "next/server";
 
+import {
+  NextRequest,
+  NextResponse,
+} from "next/server";
 
 export class CreateAppointmentController {
-  async handle(req: NextRequest) {
+  async handle(
+    req: NextRequest
+  ) {
     try {
-      const body = await req.json();
+      const body =
+        await req.json();
 
       const data = {
-        patientName: body.patientName,
+        nome: body.nome,
+
         email: body.email,
-        specialty: body.specialty,
+
+        medico: body.medico,
+
+        specialty:
+          body.specialty,
+
         date: body.date,
+
         time: body.time,
+
         status: "AGENDADO",
       };
 
       if (
-        !data.patientName ||
+        !data.nome ||
         !data.email ||
+        !data.medico ||
         !data.specialty ||
         !data.date ||
         !data.time
@@ -26,7 +41,9 @@ export class CreateAppointmentController {
         return NextResponse.json(
           {
             success: false,
-            message: "Preencha os campos obrigatórios.",
+
+            message:
+              "Preencha os campos obrigatórios.",
           },
           { status: 400 }
         );
@@ -40,7 +57,10 @@ export class CreateAppointmentController {
       return NextResponse.json(
         {
           success: true,
-          message: "Agendamento criado com sucesso.",
+
+          message:
+            "Agendamento criado com sucesso.",
+
           data: scheduling,
         },
         { status: 201 }
@@ -51,7 +71,9 @@ export class CreateAppointmentController {
       return NextResponse.json(
         {
           success: false,
-          message: "Erro interno do servidor.",
+
+          message:
+            "Erro interno do servidor.",
         },
         { status: 500 }
       );

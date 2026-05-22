@@ -4,37 +4,47 @@ import { ResponseTemplateModel } from "@/src/model/response-templete-model";
 import { prisma } from "@/src/db/prisma-connection";
 
 export class PrismaSchedulingRepository {
-  async create(data: any): Promise<ResponseTemplateInterface> {
-    try {
-      const scheduling = await prisma.scheduling.create({
+async create(
+  data: any
+): Promise<ResponseTemplateInterface> {
+  try {
+    const scheduling =
+      await prisma.scheduling.create({
         data: {
-          patientName: data.patientName,
+          nome: data.nome,
+
           email: data.email,
-          specialty: data.specialty,
+
+          medico: data.medico,
+
+          specialty:
+            data.specialty,
+
           date: data.date,
+
           time: data.time,
+
           status: data.status,
         },
       });
 
-      return new ResponseTemplateModel(
-        true,
-        201,
-        "Agendamento criado com sucesso",
-        scheduling
-      );
-    } catch (error) {
-      console.error(error);
+    return new ResponseTemplateModel(
+      true,
+      201,
+      "Agendamento criado com sucesso",
+      scheduling
+    );
+  } catch (error) {
+    console.error(error);
 
-      return new ResponseTemplateModel(
-        false,
-        500,
-        "Erro ao criar agendamento",
-        null
-      );
-    }
+    return new ResponseTemplateModel(
+      false,
+      500,
+      "Erro ao criar agendamento",
+      null
+    );
   }
-
+}
   async update(
     id: string,
     data: any

@@ -25,11 +25,14 @@ export function ConsultaModal({
         }
       >
         <div style={styles.modalHeader}>
-          <h2 style={styles.modalTitle}>
+          <h2
+            style={styles.modalTitle}
+          >
             🔍 Detalhes da Consulta
           </h2>
 
           <button
+            type="button"
             onClick={onClose}
             style={styles.modalClose}
           >
@@ -57,7 +60,41 @@ export function ConsultaModal({
             >
               👨‍⚕️ Médico:
             </strong>{" "}
-            {consulta.medico}
+            {consulta.medico ||
+              "Não informado"}
+          </p>
+
+          <p style={styles.modalBodyP}>
+            <strong
+              style={
+                styles.modalBodyStrong
+              }
+            >
+              📧 Email:
+            </strong>{" "}
+            {consulta.email}
+          </p>
+
+          <p style={styles.modalBodyP}>
+            <strong
+              style={
+                styles.modalBodyStrong
+              }
+            >
+              🏥 Especialidade:
+            </strong>{" "}
+            {consulta.specialty}
+          </p>
+
+          <p style={styles.modalBodyP}>
+            <strong
+              style={
+                styles.modalBodyStrong
+              }
+            >
+              📅 Data:
+            </strong>{" "}
+            {consulta.date}
           </p>
 
           <p style={styles.modalBodyP}>
@@ -68,13 +105,35 @@ export function ConsultaModal({
             >
               ⏰ Horário:
             </strong>{" "}
-            {consulta.horario}
+            {consulta.time}
+          </p>
+
+          <p style={styles.modalBodyP}>
+            <strong
+              style={
+                styles.modalBodyStrong
+              }
+            >
+              ✅ Status:
+            </strong>{" "}
+            {consulta.status}
           </p>
         </div>
 
         <button
+          type="button"
           onClick={onClose}
-          style={styles.modalButton}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            padding: "0.7rem",
+            border: "none",
+            borderRadius: "40px",
+            background: "#2563eb",
+            color: "white",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
         >
           Fechar
         </button>

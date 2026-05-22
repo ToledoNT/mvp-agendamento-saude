@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import { useState } from "react";
-
 import { useConsultas } from "../hook/use-consultas";
 import { ConsultaCard } from "../components/admin/consultCard";
+import { ConsultaDetailsModal } from "../components/admin/ConsultDetailsModal";
 
 export default function Admin() {
   const { consultas } = useConsultas();
@@ -13,8 +13,11 @@ export default function Admin() {
 
   function handleLogout() {
     localStorage.removeItem("user");
-
     window.location.href = "/";
+  }
+
+  function fecharModal() {
+    setConsultaSelecionada(null);
   }
 
   return (
@@ -38,17 +41,26 @@ export default function Admin() {
         </button>
       </div>
 
+      {/* GRID */}
       <div style={styles.grid}>
         {consultas?.map((consulta) => (
           <ConsultaCard
-  key={consulta.id}
-  consulta={consulta}
-  onDetails={() =>
-    setConsultaSelecionada(consulta)
-  }
-/>
+            key={consulta.id}
+            consulta={consulta}
+            onDetails={() =>
+              setConsultaSelecionada(consulta)
+            }
+          />
         ))}
       </div>
+
+      {/* MODAL (COMPONENTE) */}
+      {consultaSelecionada && (
+        <ConsultaDetailsModal
+          consulta={consultaSelecionada}
+          onClose={fecharModal}
+        />
+      )}
     </main>
   );
 }
@@ -95,7 +107,6 @@ const styles: any = {
     borderRadius: "999px",
     cursor: "pointer",
     fontWeight: 600,
-    transition: "0.2s",
   },
 
   grid: {

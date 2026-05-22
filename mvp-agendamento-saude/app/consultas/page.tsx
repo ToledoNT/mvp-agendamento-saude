@@ -5,24 +5,32 @@ import { useState } from "react";
 import { useConsultas } from "../hook/use-consultas";
 
 import { ConsultaModal } from "../components/consultas/ConsultaModal";
-
 import { EmptyConsultas } from "../components/consultas/EmptyConsultas";
 import { ConsultaCard } from "../components/admin/consultCard";
 
+import { ConsultaInterface } from "../interface/admin-interface";
+
 export default function Consultas() {
-  const { consultas } =
-    useConsultas();
+  const { consultas } = useConsultas();
 
   const [
     consultaSelecionada,
     setConsultaSelecionada,
-  ] = useState<any>(null);
+  ] = useState<ConsultaInterface | null>(
+    null
+  );
 
   function handleLogout() {
     localStorage.removeItem("user");
 
     window.location.href = "/";
   }
+
+  const listaConsultas = Array.isArray(
+    consultas
+  )
+    ? consultas
+    : [];
 
   return (
     <>
@@ -47,21 +55,23 @@ export default function Consultas() {
           </button>
         </div>
 
-        {consultas?.length === 0 ? (
+        {listaConsultas.length === 0 ? (
           <EmptyConsultas
             styles={styles}
           />
         ) : (
           <div style={styles.grid}>
-            {consultas?.map(
-              (consulta) => (
-               <ConsultaCard
-  key={consulta.id}
-  consulta={consulta}
-  onDetails={() =>
-    setConsultaSelecionada(consulta)
-  }
-/>
+            {listaConsultas.map(
+              (consulta: any) => (
+                <ConsultaCard
+                  key={consulta.id}
+                  consulta={consulta}
+                  onDetails={() =>
+                    setConsultaSelecionada(
+                      consulta
+                    )
+                  }
+                />
               )
             )}
           </div>

@@ -1,7 +1,7 @@
 import { ConsultaInterface } from "@/app/interface/admin-interface";
 
 interface Props {
-  consulta: ConsultaInterface;
+  consulta?: ConsultaInterface;
   onDetails: () => void;
 }
 
@@ -9,31 +9,45 @@ export function ConsultaCard({
   consulta,
   onDetails,
 }: Props) {
+  if (!consulta) {
+    return null;
+  }
+
   return (
     <div style={styles.card}>
       <div style={styles.cardHeader}>
         <span style={styles.badge}>
-          ✅ {consulta.status}
+          ✅{" "}
+          {consulta.status ||
+            "Sem status"}
         </span>
       </div>
 
       <h3 style={styles.name}>
-        {consulta.nome}
+        {consulta.nome ||
+          "Paciente não informado"}
       </h3>
 
       <div style={styles.info}>
         <p>
-          <strong>👨‍⚕️ Médico:</strong>{" "}
-          {consulta.medico}
+          <strong>
+            👨‍⚕️ Médico:
+          </strong>{" "}
+          {consulta.medico ||
+            "Não informado"}
         </p>
 
         <p>
-          <strong>⏰ Horário:</strong>{" "}
-          {consulta.horario}
+          <strong>
+            ⏰ Horário:
+          </strong>{" "}
+          {consulta.time ||
+            "Não informado"}
         </p>
       </div>
 
       <button
+        type="button"
         style={styles.button}
         onClick={onDetails}
       >
@@ -43,7 +57,10 @@ export function ConsultaCard({
   );
 }
 
-const styles: any = {
+const styles: Record<
+  string,
+  React.CSSProperties
+> = {
   card: {
     background: "white",
     padding: "1.8rem",
@@ -72,14 +89,15 @@ const styles: any = {
   name: {
     fontSize: "1.25rem",
     fontWeight: 700,
-    color: "#0f172a",
+    color: "#020617",
     marginBottom: "1rem",
   },
 
   info: {
-    color: "#334155",
+    color: "#0f172a",
     marginBottom: "1.5rem",
     flex: 1,
+    fontWeight: 500,
   },
 
   button: {
@@ -88,8 +106,9 @@ const styles: any = {
     border: "none",
     borderRadius: "999px",
     background: "#2563eb",
-    color: "white",
-    fontWeight: 600,
+    color: "#ffffff",
+    fontWeight: 700,
+    fontSize: "0.95rem",
     cursor: "pointer",
   },
 };

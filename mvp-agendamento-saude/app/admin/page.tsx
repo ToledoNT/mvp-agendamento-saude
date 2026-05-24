@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // 👈 importado
 import { useConsultas } from "../hook/use-consultas";
 import { ConsultaCard } from "../components/admin/consultCard";
 import { ConsultaDetailsModal } from "../components/admin/ConsultDetailsModal";
 
 export default function Admin() {
+  const router = useRouter(); // 👈 hook de navegação
   const { consultas } = useConsultas();
 
   const [consultaSelecionada, setConsultaSelecionada] =
@@ -23,14 +25,18 @@ export default function Admin() {
   return (
     <main style={styles.container}>
       <div style={styles.header}>
-        <div>
-          <h1 style={styles.title}>
-            ⚙️ Painel Administrativo
-          </h1>
-
-          <p style={styles.subtitle}>
-            Gerencie todos os agendamentos
-          </p>
+        <div style={styles.headerLeft}>
+          <button onClick={() => router.back()} style={styles.backButton}>
+            ← Voltar
+          </button>
+          <div>
+            <h1 style={styles.title}>
+              ⚙️ Painel Administrativo
+            </h1>
+            <p style={styles.subtitle}>
+              Gerencie todos os agendamentos
+            </p>
+          </div>
         </div>
 
         <button
@@ -84,6 +90,29 @@ const styles: any = {
     marginBottom: "2rem",
     paddingBottom: "1rem",
     borderBottom: "1px solid #cbd5e1",
+  },
+
+  headerLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+    flexWrap: "wrap",
+  },
+
+  backButton: {
+    background: "#f1f5f9",
+    border: "1px solid #cbd5e1",
+    borderRadius: "40px",
+    padding: "0.5rem 1.2rem",
+    fontSize: "0.9rem",
+    fontWeight: 500,
+    color: "#1e293b",
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.4rem",
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
   },
 
   title: {

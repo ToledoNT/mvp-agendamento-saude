@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -14,6 +14,8 @@ export default function Agendamento() {
   const {
     agendarConsulta,
     loading,
+    horarios,
+    getHorariosPorMedico,
   } = useAgendamento();
 
   const [nome, setNome] =
@@ -35,6 +37,18 @@ export default function Agendamento() {
 
   const [horario, setHorario] =
     useState("");
+
+  useEffect(() => {
+    if (!medico) return;
+
+    setHorario("");
+
+    const loadHorarios = async () => {
+      await getHorariosPorMedico(medico);
+    };
+
+    loadHorarios();
+  }, [medico, getHorariosPorMedico]);
 
   async function handleSubmit(
     e: React.FormEvent
@@ -127,6 +141,9 @@ export default function Agendamento() {
               medico={medico}
               data={data}
               horario={horario}
+              horariosDisponiveis={
+                horarios
+              }
               loading={loading}
               setNome={setNome}
               setEmail={setEmail}

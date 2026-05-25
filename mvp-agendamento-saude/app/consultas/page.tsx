@@ -27,9 +27,9 @@ export default function Consultas() {
       <main style={styles.container}>
         <div style={styles.header}>
           <div style={styles.headerLeft}>
-            <button onClick={() => router.back()} style={styles.backButton}>
-              ← Voltar
-            </button>
+             <button onClick={() => router.push("/home")} style={styles.backButton}>
+  ← Voltar
+</button>
             <div>
               <h1 style={styles.title}>📋 Minhas Consultas</h1>
               <p style={styles.subtitle}>Acompanhe seus agendamentos</p>
@@ -89,7 +89,7 @@ const styles: any = {
   header: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center", // 👈 alinhamento vertical
+    alignItems: "center", 
     marginBottom: "3rem",
     flexWrap: "wrap",
     gap: "1rem",

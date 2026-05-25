@@ -7,7 +7,7 @@ import { ConsultaCard } from "../components/admin/consultCard";
 import { ConsultaDetailsModal } from "../components/admin/ConsultDetailsModal";
 
 export default function Admin() {
-  const router = useRouter(); // 👈 hook de navegação
+  const router = useRouter(); 
   const { consultas } = useConsultas();
 
   const [consultaSelecionada, setConsultaSelecionada] =
@@ -31,7 +31,7 @@ export default function Admin() {
           </button>
           <div>
             <h1 style={styles.title}>
-              ⚙️ Painel Administrativo
+              ⚙️ Painel de Agendamentos
             </h1>
             <p style={styles.subtitle}>
               Gerencie todos os agendamentos

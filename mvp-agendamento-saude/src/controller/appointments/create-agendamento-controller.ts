@@ -39,6 +39,7 @@ export class CreateAppointmentController {
         !data.time
       ) {
         return NextResponse.json(
+          
           {
             success: false,
 

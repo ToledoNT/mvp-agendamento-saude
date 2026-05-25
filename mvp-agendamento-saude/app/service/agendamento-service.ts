@@ -10,36 +10,39 @@ export class AgendamentoService {
       body: JSON.stringify(data),
     });
 
+    const result = await response.json().catch(() => ({}));
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message ||
+        result.message ||
           `Erro ${response.status}: ${response.statusText}`
       );
     }
 
-    return await response.json();
+    return result;
   }
 
-  async getHorariosByMedico(medicoId: string) {
-    const response = await fetch(
-      `/api/medicos/${medicoId}/horarios`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+  async getHorariosByMedico(medico: string, data?: string) {
+    const url = new URL(
+      `/api/medicos/${medico}/horarios`,
+      window.location.origin
     );
 
+    if (data) {
+      url.searchParams.append("data", data);
+    }
+
+    const response = await fetch(url.toString());
+
+    const result = await response.json().catch(() => ({}));
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message ||
+        result.message ||
           `Erro ${response.status}: ${response.statusText}`
       );
     }
 
-    return await response.json();
+    return result;
   }
 }

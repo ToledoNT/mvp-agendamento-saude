@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 interface Props {
   email?: string;
   isAdmin: boolean;
@@ -11,6 +13,13 @@ export function HomeHeader({
   isAdmin,
   onLogout,
 }: Props) {
+  const router = useRouter();
+
+  function handleLogout() {
+    onLogout();      // limpa usuário (localStorage etc)
+    router.push("/"); // 👈 vai pra home
+  }
+
   return (
     <div style={styles.header}>
       <div>
@@ -19,14 +28,12 @@ export function HomeHeader({
         </h1>
 
         <p style={styles.subtitle}>
-          Posto de Saúde – Gestão de
-          Consultas
+          Posto de Saúde – Gestão de Consultas
         </p>
 
         {email && (
           <p style={styles.welcome}>
-            👋 Olá,{" "}
-            <strong>{email}</strong>{" "}
+            👋 Olá, <strong>{email}</strong>{" "}
             {isAdmin && "(Admin)"}
           </p>
         )}
@@ -34,7 +41,7 @@ export function HomeHeader({
 
       <button
         style={styles.logoutButton}
-        onClick={onLogout}
+        onClick={handleLogout}
       >
         🚪 Sair
       </button>
@@ -51,8 +58,7 @@ const styles: any = {
     gap: "1rem",
     marginBottom: "3rem",
     paddingBottom: "1rem",
-    borderBottom:
-      "2px solid rgba(37,99,235,0.2)",
+    borderBottom: "2px solid rgba(37,99,235,0.2)",
   },
 
   title: {

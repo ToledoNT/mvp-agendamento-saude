@@ -55,9 +55,9 @@ export default function Home() {
         {isAdmin && (
           <>
             <HomeCard
-              title="⚙️ Painel Admin"
+              title="⚙️ Painel Agendamentos"
               description="Gerencie todos os agendamentos"
-              href="/admin"
+              href="/appointments"
             />
 
             <HomeCard

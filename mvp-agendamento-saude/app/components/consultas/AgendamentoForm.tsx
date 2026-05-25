@@ -3,185 +3,134 @@ import { Props } from "@/app/interface/agendamento-interface";
 export function AgendamentoForm({
   nome,
   email,
-  especialidade,
   medico,
   data,
   horario,
+  horariosDisponiveis,
+  medicosDisponiveis,
   loading,
   setNome,
   setEmail,
-  setEspecialidade,
   setMedico,
+  setEspecialidade,
   setData,
   setHorario,
   onSubmit,
   styles,
 }: Props) {
   return (
-    <>
-      <form
-        onSubmit={onSubmit}
-        style={styles.form}
-      >
-        <div style={styles.field}>
-          <label style={styles.label}>
-            Nome do paciente *
-          </label>
+    <form onSubmit={onSubmit} style={styles.form}>
+      
+      {/* NOME */}
+      <div style={styles.field}>
+        <label style={styles.label}>Nome do paciente *</label>
+        <input
+          style={styles.input}
+          placeholder="Ex: João Silva"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+      </div>
 
-          <input
-            className="login-input"
-            style={styles.input}
-            placeholder="Ex: João Silva"
-            value={nome}
-            onChange={(e) =>
-              setNome(e.target.value)
-            }
-            required
-          />
-        </div>
+      {/* EMAIL */}
+      <div style={styles.field}>
+        <label style={styles.label}>E-mail *</label>
+        <input
+          style={styles.input}
+          type="email"
+          placeholder="paciente@exemplo.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
 
-        <div style={styles.field}>
-          <label style={styles.label}>
-            E-mail *
-          </label>
+      {/* MÉDICO */}
+      <div style={styles.field}>
+        <label style={styles.label}>Médico *</label>
 
-          <input
-            className="login-input"
-            style={styles.input}
-            type="email"
-            placeholder="paciente@exemplo.com"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            required
-          />
-        </div>
+        <select
+          style={styles.input}
+          value={medico}
+          onChange={(e) => {
+            const medicoSelecionado = medicosDisponiveis.find(
+              (m) => m.nome === e.target.value
+            );
 
-        <div style={styles.field}>
-          <label style={styles.label}>
-            Especialidade *
-          </label>
+            setMedico(e.target.value);
 
-          <input
-            className="login-input"
-            style={styles.input}
-            placeholder="Ex: Cardiologia"
-            value={especialidade}
-            onChange={(e) =>
-              setEspecialidade(
-                e.target.value
-              )
-            }
-            required
-          />
-        </div>
-
-        <div style={styles.field}>
-          <label style={styles.label}>
-            Médico *
-          </label>
-
-          <input
-            className="login-input"
-            style={styles.input}
-            placeholder="Ex: Dr. Carlos Silva"
-            value={medico}
-            onChange={(e) =>
-              setMedico(e.target.value)
-            }
-            required
-          />
-        </div>
-
-        <div style={styles.field}>
-          <label style={styles.label}>
-            Data *
-          </label>
-
-          <input
-            className="login-input"
-            style={styles.input}
-            type="date"
-            value={data}
-            onChange={(e) =>
-              setData(e.target.value)
-            }
-            required
-          />
-        </div>
-
-        <div style={styles.field}>
-          <label style={styles.label}>
-            Horário *
-          </label>
-
-          <input
-            className="login-input"
-            style={styles.input}
-            type="time"
-            value={horario}
-            onChange={(e) =>
-              setHorario(
-                e.target.value
-              )
-            }
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="submit-button"
-          style={styles.button}
-          disabled={loading}
+            // 🔥 AQUI ESTÁ A CORREÇÃO
+            setEspecialidade(
+              medicoSelecionado?.especialidade || ""
+            );
+          }}
+          required
         >
-          {loading
-            ? "⏳ Agendando..."
-            : "✅ Confirmar Agendamento"}
-        </button>
-      </form>
+          <option value="">Selecione um médico</option>
 
-      <style jsx>{`
-        .login-input::placeholder {
-          color: #9ca3af !important;
-          opacity: 1;
-        }
+          {medicosDisponiveis?.map((m) => (
+            <option
+              key={m.id}
+              value={m.nome}
+            >
+              {m.nome} - {m.especialidade}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        .login-input {
-          color: #111827 !important;
-        }
+      {/* DATA */}
+      <div style={styles.field}>
+        <label style={styles.label}>Data *</label>
+        <input
+          style={styles.input}
+          type="date"
+          value={data}
+          onChange={(e) => setData(e.target.value)}
+          required
+        />
+      </div>
 
-        .login-input:focus {
-          outline: none;
-          border-color: #2563eb !important;
-          box-shadow: 0 0 0 3px
-            rgba(37, 99, 235, 0.1);
+      {/* HORÁRIO */}
+      <div style={styles.field}>
+        <label style={styles.label}>Horário *</label>
 
-          transition: all 0.2s ease;
-        }
+        <select
+          style={styles.input}
+          value={horario}
+          onChange={(e) => setHorario(e.target.value)}
+          required
+        >
+          <option value="">Selecione um horário</option>
 
-        .submit-button {
-          transition: all 0.2s ease;
-        }
+          {horariosDisponiveis?.length > 0 ? (
+            horariosDisponiveis.map((h) => (
+              <option
+                key={h._id || h.horario}
+                value={h.horario}
+              >
+                {h.horario}
+              </option>
+            ))
+          ) : (
+            <option disabled>
+              Nenhum horário disponível
+            </option>
+          )}
+        </select>
+      </div>
 
-        .submit-button:hover:not(
-            :disabled
-          ) {
-          background-color: #1d4ed8 !important;
-
-          transform: translateY(-1px);
-
-          box-shadow: 0 4px 8px
-            rgba(0, 0, 0, 0.1);
-        }
-
-        .submit-button:disabled {
-          opacity: 0.6;
-
-          cursor: not-allowed;
-        }
-      `}</style>
-    </>
+      {/* BOTÃO */}
+      <button
+        type="submit"
+        style={styles.button}
+        disabled={loading}
+      >
+        {loading
+          ? "⏳ Agendando..."
+          : "✅ Confirmar Agendamento"}
+      </button>
+    </form>
   );
 }

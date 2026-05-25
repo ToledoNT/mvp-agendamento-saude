@@ -5,12 +5,13 @@ export interface CreateHorarioData {
 }
 
 export interface Horario {
-  id: string;
+  _id: string;
   medico: string;
   data: string;
   horario: string;
-  createdAt?: string; 
+  createdAt?: string;
 }
+
 export interface HorarioResponse {
   status: boolean;
   code: number;

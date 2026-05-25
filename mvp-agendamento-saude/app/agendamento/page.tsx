@@ -45,7 +45,7 @@ export default function Agendamento() {
         medico,
         specialty: especialidade,
         date: data,
-        time: horario,
+        horario: horario,
         status: "AGENDADO",
       });
       router.push("/consultas");

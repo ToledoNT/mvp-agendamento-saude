@@ -1,4 +1,4 @@
-import { ConsultaInterface } from "@/app/interface/admin-interface";
+import { ConsultaInterface } from "@/app/interface/consulta-interface";
 
 interface Props {
   consulta: ConsultaInterface;
@@ -105,7 +105,7 @@ export function ConsultaModal({
             >
               ⏰ Horário:
             </strong>{" "}
-            {consulta.time}
+            {consulta.horario}
           </p>
 
           <p style={styles.modalBodyP}>

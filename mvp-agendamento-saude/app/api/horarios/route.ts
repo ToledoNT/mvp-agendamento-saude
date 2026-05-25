@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 import { CreateManyHorariosController } from "@/src/controller/horarios/create-horarios-controller";
 import { GetAllHorariosController } from "@/src/controller/horarios/get-all-horario-controller";
@@ -13,9 +13,5 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const response = await getAllHorariosController.handle();
-
-  return NextResponse.json(response, {
-    status: response.code,
-  });
+  return getAllHorariosController.handle();
 }

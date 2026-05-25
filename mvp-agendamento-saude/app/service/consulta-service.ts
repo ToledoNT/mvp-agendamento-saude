@@ -1,4 +1,4 @@
-import { ConsultaInterface } from "../interface/admin-interface";
+import { ConsultaInterface } from "../interface/consulta-interface";
 
 export class ConsultaService {
   private async handleResponse<T>(response: Response): Promise<T> {

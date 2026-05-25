@@ -6,7 +6,7 @@ import { useConsultas } from "../hook/use-consultas";
 import { ConsultaModal } from "../components/consultas/ConsultaModal";
 import { EmptyConsultas } from "../components/consultas/EmptyConsultas";
 import { ConsultaCard } from "../components/admin/consultCard";
-import { ConsultaInterface } from "../interface/admin-interface";
+import { ConsultaInterface } from "../interface/consulta-interface";
 
 export default function Consultas() {
   const router = useRouter(); // 👈 hook de navegação

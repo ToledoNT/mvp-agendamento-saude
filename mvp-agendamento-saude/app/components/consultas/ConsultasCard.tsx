@@ -1,10 +1,8 @@
-import { ConsultaInterface } from "@/app/interface/admin-interface";
+import { ConsultaInterface } from "@/app/interface/consulta-interface";
 
 interface Props {
   consulta: ConsultaInterface;
-
   onDetails: () => void;
-
   styles: any;
 }
 
@@ -14,10 +12,7 @@ export function ConsultaCard({
   styles,
 }: Props) {
   return (
-    <div
-      className="card-hover"
-      style={styles.card}
-    >
+    <div className="card-hover" style={styles.card}>
       <div style={styles.cardHeader}>
         <span style={styles.badge}>
           ✅ {consulta.status}
@@ -30,17 +25,13 @@ export function ConsultaCard({
 
       <div style={styles.info}>
         <p>
-          <strong>
-            👨‍⚕️ Médico:
-          </strong>{" "}
+          <strong>👨‍⚕️ Médico:</strong>{" "}
           {consulta.medico}
         </p>
 
         <p>
-          <strong>
-            ⏰ Horário:
-          </strong>{" "}
-          {consulta.horario}
+          <strong>⏰ Horário:</strong>{" "}
+          {consulta.horario || "Não informado"}
         </p>
       </div>
 

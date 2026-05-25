@@ -20,7 +20,7 @@ export function useHorarios() {
       setHorarios((prev) => [
         ...prev,
         ...data.map((item, index) => ({
-          id: `${Date.now()}-${index}`,
+          _id: `${Date.now()}-${index}`,
           horario: item.horario,
           medico: item.medico,
           data: item.data,

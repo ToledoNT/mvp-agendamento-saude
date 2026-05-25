@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { GetAllHorariosUseCase } from "@/src/use-case/horarios/get-all-horario-use-case";
 import { CreateLog } from "@/src/use-case/logs/create-log";
 
@@ -14,6 +15,8 @@ export class GetAllHorariosController {
       await this.log.execute(response);
     }
 
-    return response;
+    return NextResponse.json(response, {
+      status: response.status ? 200 : 400,
+    });
   }
 }

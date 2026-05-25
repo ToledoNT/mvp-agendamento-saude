@@ -7,7 +7,7 @@ export interface Consulta {
   medico?: string;
   specialty: string;
   date: string;
-  time: string;
+  horario: string;
   status: string;
 }
 
@@ -64,7 +64,7 @@ export function ConsultaDetailsModal({
 
           <p style={styles.text}>
             <strong>Horário:</strong>{" "}
-            {consulta.time}
+            {consulta.horario}
           </p>
 
           <p style={styles.text}>

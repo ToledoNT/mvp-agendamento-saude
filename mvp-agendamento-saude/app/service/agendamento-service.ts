@@ -1,4 +1,4 @@
-import { ConsultaInterface } from "../interface/admin-interface";
+import { ConsultaInterface } from "../interface/consulta-interface";
 
 export class AgendamentoService {
   async create(data: ConsultaInterface) {

@@ -1,13 +1,14 @@
 export interface ConsultaInterface {
-  id?: string; // 👈 adiciona isso
+  id?: string;
+
   nome: string;
   email: string;
 
-  medico: string; 
-  specialty: string; 
+  medico: string;
+  specialty: string;
 
   date: string;
-  time: string;
+  horario: string; // ✅ padronizado (antes era time)
 
   status: "AGENDADO" | "CANCELADO" | "CONCLUIDO";
 }

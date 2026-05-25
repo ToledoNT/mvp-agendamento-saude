@@ -1,4 +1,4 @@
-import { ConsultaInterface } from "@/app/interface/admin-interface";
+import { ConsultaInterface } from "@/app/interface/consulta-interface";
 
 interface Props {
   consulta?: ConsultaInterface;
@@ -41,7 +41,7 @@ export function ConsultaCard({
           <strong>
             ⏰ Horário:
           </strong>{" "}
-          {consulta.time ||
+          {consulta.horario ||
             "Não informado"}
         </p>
       </div>

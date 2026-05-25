@@ -6,15 +6,15 @@ export class CreateManyHorariosController {
     try {
       const body = await req.json();
 
-      const response =
-        await new CreateHorarioUseCase().execute(
-          body
-        );
+      const result = await new CreateHorarioUseCase().execute(body);
 
       return NextResponse.json(
-        response,
         {
-          status: response.code,
+          status: true,
+          data: result,
+        },
+        {
+          status: 200,
         }
       );
     } catch (error) {
@@ -23,9 +23,7 @@ export class CreateManyHorariosController {
       return NextResponse.json(
         {
           status: false,
-          code: 500,
-          message:
-            "Erro ao criar horários",
+          message: "Erro ao criar horários",
           data: null,
         },
         { status: 500 }

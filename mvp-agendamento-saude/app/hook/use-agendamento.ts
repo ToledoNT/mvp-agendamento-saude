@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 
-import { ConsultaInterface } from "../interface/admin-interface";
+import { ConsultaInterface } from "../interface/consulta-interface";
 import { AgendamentoService } from "../service/agendamento-service";
 import { horarioService } from "../service/horario-service";
 import { Horario } from "../interface/horario-interface";

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ConsultaService } from "../service/consulta-service";
-import { ConsultaInterface } from "../interface/admin-interface";
+import { ConsultaInterface } from "../interface/consulta-interface";
 
 export function useConsultas() {
   const consultaService = new ConsultaService();

@@ -6,7 +6,7 @@ export interface IUpdateAppointment {
   specialty?: string;
 
   date?: string;
-  time?: string;
+  horario?: string;
 
   status?: string;
 }

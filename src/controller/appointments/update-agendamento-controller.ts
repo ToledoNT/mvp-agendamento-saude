@@ -27,7 +27,7 @@ export class UpdateAppointmentController {
           email: body.email,
           specialty: body.specialty,
           date: body.date,
-          time: body.time,
+          horario: body.horario,
           status: body.status,
         });
 

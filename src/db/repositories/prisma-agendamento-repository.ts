@@ -47,7 +47,7 @@ export class PrismaSchedulingRepository {
           medico: data.medico,
           specialty: data.specialty,
           date: data.date,
-          time: data.time,
+          horario: data.horario,
           status: data.status,
         },
       });

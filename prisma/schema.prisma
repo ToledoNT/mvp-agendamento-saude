@@ -35,7 +35,7 @@ model Scheduling {
 
   date      String
 
-  time      String
+  horario      String
 
   status    String @default("AGENDADO")
 }

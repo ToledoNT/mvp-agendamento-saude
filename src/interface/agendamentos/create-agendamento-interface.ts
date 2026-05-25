@@ -9,7 +9,7 @@ export interface IScheduling {
 
   date: string;
 
-  time: string;
+  horario: string;
 
   status?: string;
 }

@@ -25,7 +25,7 @@ export class CreateAppointmentController {
 
         date: body.date,
 
-        time: body.time,
+        horario: body.horario,
 
         status: "AGENDADO",
       };
@@ -36,7 +36,7 @@ export class CreateAppointmentController {
         !data.medico ||
         !data.specialty ||
         !data.date ||
-        !data.time
+        !data.horario
       ) {
         return NextResponse.json(
           
